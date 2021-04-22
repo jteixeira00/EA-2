@@ -97,7 +97,7 @@ int arc()
             if (col < (n) / 2)
             {
                 //cout << "primeiro caso na posicao " << row << " " << col << "\n";
-                for (int auxcol = 1; auxcol <= col; auxcol++)
+                for (int auxcol = 1; auxcol < col; auxcol++)
                 {
                     auxcounter = mod_add(auxcounter, table[row][auxcol], 1000000007);
                 }
@@ -112,10 +112,11 @@ int arc()
                     auxcounter = mod_add(auxcounter, table[row][auxcol], 1000000007);
                     //  cout << auxcounter << "\n";
                 }
-                counter = mod_add(counter, auxcounter * table[row][col] * 2, 1000000007);
+                counter = mod_add(counter, auxcounter * table[row][col], 1000000007);
                 counter = mod_add(counter, table[row][col] * table[row][col], 1000000007);
                 //cout << "counter: " << counter << "\n";
             }
+
             else
             {
                 //cout << "terceiro caso na posicao " << row << " " << col << "\n";
