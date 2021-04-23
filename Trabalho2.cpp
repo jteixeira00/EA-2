@@ -23,52 +23,32 @@ long long mod_add(long long a, int b, int mod)
 {
     return (mod_abs(a, mod) + mod_abs(b, mod)) % mod;
 }
-
+long long mod_sub(long long a, int b, int mod)
+{
+    return (mod_abs(a, mod) - mod_abs(b, mod)) % mod;
+}
 int arc()
 {
     counter = 0;
     long long aux;
     int check;
-<<<<<<< Updated upstream
-    int lastcol = 1;
-    long long varaux;
-    /*
-    for (int i = 0; i < ceiling + 1; i++)
-    {
-        for (int j = 0; j < n + 1; j++)
-        {
-            table[i][j] = 0;
-        }
-    }
-    */
-    table[h][1] = 1;
-    for (int row = h; row < ceiling + 1; row++)
-=======
     int lastcol = h;
 
     table[1][h] = 1;
 
     for (int row = 1; row < n + 1; row++)
->>>>>>> Stashed changes
     {
         check = 0;
         for (int col = lastcol; col < ceiling + 1; col++)
         {
 
             aux = 0;
-<<<<<<< Updated upstream
-            for (int k = row - h + 1; k < row; k++)
-=======
 
             for (int k = col - h + 1; k < col; k++)
->>>>>>> Stashed changes
             {
                 //aux += table[k][col - 1];
                 aux = mod_add(aux, table[row - 1][k], 1000000007);
             }
-<<<<<<< Updated upstream
-            if (row != h || col != 1)
-=======
 
             //aux = mod_add(mod_sub(table[row - 1][col], table[row - h][col - 1], 1000000007), table[row - 1][col - 1], 1000000007);
 
@@ -76,7 +56,6 @@ int arc()
             //6 = 4-1+3
 
             if (row != 1 || col != h)
->>>>>>> Stashed changes
             {
                 table[row][col] = aux;
             }
@@ -95,37 +74,6 @@ int arc()
                     break;
                 }
             }
-<<<<<<< Updated upstream
-
-            for (int aux = row - h + 1; aux < row; aux++)
-            {
-                for (int auxcol = 1; auxcol <= n - col; auxcol++)
-                {
-                    //counter += table[row][col] * table[aux][auxcol];
-                    varaux = (long long)(table[row][col] * table[aux][auxcol]) % 1000000007;
-                    counter = mod_add(counter, varaux, 1000000007);
-                }
-            }
-            if (varaux == 0)
-            {
-                break;
-            }
-        }
-    }
-    /*
-    for (int row = h + 1; row <= ceiling; row++)
-    {
-        for (int col = 2; col < n; col++)
-        {
-            for (int aux = row - h + 1; aux < row; aux++)
-            {
-                for (int auxcol = 1; auxcol <= n - col; auxcol++)
-                {
-                    //counter += table[row][col] * table[aux][auxcol];
-                    long long varaux = (long long)(table[row][col] * table[aux][auxcol]) % 1000000007;
-                    counter = mod_add(counter, varaux, 1000000007);
-                }
-=======
         }
 
         for (int col = 0; col <= ceiling; col++)
@@ -145,12 +93,11 @@ int arc()
             if (col == h)
             {
                 counter = mod_add(counter, tableDown[row][col], 1000000007);
->>>>>>> Stashed changes
             }
         }
         lastcol++;
     }
-    */
+
     return counter;
 }
 void printMatrix()
@@ -183,9 +130,11 @@ int main()
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     int ncases;
+
     cin >> ncases;
     for (int i = 0; i < ncases; i++)
     {
+
         cin >> n >> h;
         cin >> ceiling;
         table = vector<vector<long long>>(n + 1, vector<long long>(ceiling + 1, 0));
