@@ -27,38 +27,43 @@ long long mod_sub(long long a, int b, int mod)
 {
     return (mod_abs(a, mod) - mod_abs(b, mod)) % mod;
 }
+void printvector(vector<long long> vec);
 int arc()
 {
     counter = 0;
     long long aux;
     int check;
     int lastcol = h;
-
+    vector<long long> somaup = vector<long long>(ceiling + 1, 1);
+    vector<long long> newsomaup = vector<long long>(ceiling + 1, 0);
+    vector<long long> somadown = vector<long long>(ceiling + 1, 0);
+    vector<long long> newsomadown = vector<long long>(ceiling + 1, 0);
     table[1][h] = 1;
-
-    for (int row = 1; row < n + 1; row++)
+    for (int i = 0; i < h; i++)
     {
+        somaup[i] = 0;
+    }
+
+    for (int row = 2; row < n + 1; row++)
+    {
+        //printvector(somaup);
+        newsomaup = vector<long long>(ceiling + 1, 0);
+        newsomadown = vector<long long>(ceiling + 1, 0);
         check = 0;
         for (int col = lastcol; col < ceiling + 1; col++)
         {
-
-            aux = 0;
-
-            for (int k = col - h + 1; k < col; k++)
+            if (row == 1 && col == h)
             {
-                //aux += table[k][col - 1];
-                aux = mod_add(aux, table[row - 1][k], 1000000007);
+                continue;
             }
-
-            //aux = mod_add(mod_sub(table[row - 1][col], table[row - h][col - 1], 1000000007), table[row - 1][col - 1], 1000000007);
-
-            //aux = mod_sub(mod_add(table[row - 1][col], table[row - 1][col - 1], 1000000007), table[row - h][col - 1], 1000000007);
-            //6 = 4-1+3
-
+            aux = 0;
+            aux = mod_sub(somaup[col - 1], somaup[col - h], 1000000007);
             if (row != 1 || col != h)
             {
                 table[row][col] = aux;
+                newsomaup[col] = mod_add(newsomaup[col - 1], aux, 1000000007);
             }
+
             if (aux)
             {
                 if (check == 0)
@@ -67,15 +72,30 @@ int arc()
                 }
                 check = 1;
             }
-            if (check)
-            {
-                if (aux == 0)
-                {
-                    break;
-                }
-            }
         }
 
+        for (int col = ceiling - h; col >= 0; col--)
+        {
+            //cout << "col: " << col << "\n";
+
+            cout << "\n";
+            aux = 0;
+            aux = mod_add(aux, mod_sub(somaup[col + h], somaup[col + 1], 1000000007), 1000000007);
+            //cout << "somaup1: " << somaup[col + 1] << " somaup2: " << somaup[col + h] << "\n";
+            aux = mod_add(aux, mod_sub(somadown[col + 1], somadown[col + h], 1000000007), 1000000007);
+            //cout << "somadown1: " << somadown[col + 1] << " somadown2: " << somadown[col + h] << "\n\n";
+
+            tableDown[row][col] = aux;
+            newsomadown[col] = mod_add(newsomadown[col + 1], aux, 1000000007);
+            //cout << col << "\n";
+            //printvector(table[row]);
+            //printvector(tableDown[row]);
+            if (col == h)
+            {
+                counter = mod_add(counter, tableDown[row][col], 1000000007);
+            }
+        }
+        /*
         for (int col = 0; col <= ceiling; col++)
         {
 
@@ -96,10 +116,22 @@ int arc()
                 counter = mod_add(counter, tableDown[row][col], 1000000007);
             }
         }
+        */
+        somadown = newsomadown;
+        somaup = newsomaup;
         lastcol++;
     }
 
     return counter;
+}
+
+void printvector(vector<long long> vec)
+{
+    for (unsigned int i = 0; i < vec.size(); i++)
+    {
+        cout << vec[i] << " ";
+    }
+    cout << "\n";
 }
 void printMatrix()
 {
@@ -141,7 +173,7 @@ int main()
         table = vector<vector<long long>>(n + 1, vector<long long>(ceiling + 1, 0));
         tableDown = vector<vector<long long>>(n + 1, vector<long long>(ceiling + 1, 0));
         cout << arc() << "\n";
-        //printMatrix();
+        // printMatrix();
         printMatrixDown();
     }
     return 0;
