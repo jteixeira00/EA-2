@@ -141,7 +141,7 @@ int main()
         table = vector<vector<long long>>(n + 1, vector<long long>(ceiling + 1, 0));
         tableDown = vector<vector<long long>>(n + 1, vector<long long>(ceiling + 1, 0));
         cout << arc() << "\n";
-        //printMatrix();
+        printMatrix();
         printMatrixDown();
     }
     return 0;
