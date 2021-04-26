@@ -109,10 +109,10 @@ int arc()
             aux = 0;
             if (col + h - 1 > ceiling)
             {
-                aux = mod_add(aux, mod_sub(somaup[col + h - 1], somaup[col], 1000000007), 1000000007);
+                aux = mod_add(aux, mod_sub(somaup[ceiling], somaup[col], 1000000007), 1000000007);
                 //cout << "somaup1: " << somaup[col + 1] << " somaup2: " << somaup[col + h] << "\n";
 
-                aux = mod_add(aux, mod_sub(somadown[col + h - 1], somadown[col], 1000000007), 1000000007);
+                aux = mod_add(aux, mod_sub(somadown[ceiling], somadown[col], 1000000007), 1000000007);
             }
             else
             {
